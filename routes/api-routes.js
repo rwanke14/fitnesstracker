@@ -6,9 +6,9 @@ module.exports = (app) => {
   //get last workout
       app.get("/api/workouts", (req, res) => {
         Workouts.find({})
-          .then(dbWorkouts => {
-            console.log(dbWorkouts)
-            res.json(dbWorkouts);
+          .then(Workouts => {
+            console.log(Workouts)
+            res.json(Workouts);
           })
           .catch(err => {
             res.json(err);
@@ -18,22 +18,18 @@ module.exports = (app) => {
       app.get("/api/workouts", (req, res) => {
         Workouts.aggregate([
           {
-            $set: {
-              totalDuration: {$sum: req.body.duration}
-            }
-          },
-          {
             $limit: 7
           },
           {
-            $sort: 1
-          }
-
+            $addFields: {
+              totalDuration: {$sum: "$exercises.duration"}
+            }
+          },
         ])
-          .then(dbWorkouts => {
-            console.log(dbWorkouts)
+          .then(Workouts => {
+            console.log(Workouts)
             console.
-            res.json(dbWorkouts);
+            res.json(Workouts);
           })
           .catch(err => {
             res.json(err);
@@ -42,13 +38,13 @@ module.exports = (app) => {
 
 //create a new workout
       app.post("/api/workouts", (req, res) => {
-        console.log(body)
+        
         console.log('Testing post method.')
         Workouts.create({
           exercises: req.body
         })
-          .then(dbWorkouts => {
-            res.json(dbWorkouts);
+          .then(Workouts => {
+            res.json(Workouts);
           })
           .catch(err => {
             res.json(err);
@@ -79,9 +75,18 @@ module.exports = (app) => {
 
     //set up a range for ordering the dashboard.
       app.get("/api/workouts/range", (req, res) => {
-       Workouts.find({})
-          .then(dbWorkouts => {
-            res.json(dbWorkouts);
+        Workouts.aggregate([
+          {
+            $limit: 7
+          },
+          {
+            $addFields: {
+              totalDuration: {$sum: "$exercises.duration"}
+            }
+          },
+        ])
+          .then(Workouts => {
+            res.json(Workouts);
           })
           .catch(err => {
             res.json(err);

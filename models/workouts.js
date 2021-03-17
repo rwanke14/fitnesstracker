@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const WorkoutsSchema = new Schema({
+
     day: {
         type: Date,
         default: Date.now
@@ -35,10 +36,12 @@ const WorkoutsSchema = new Schema({
             distance: {
                 type: Number
             }
-        
+
         }
     ]
-});
+},
+
+);
 
 
 WorkoutsSchema.virtual('Workouts').get(function() {
