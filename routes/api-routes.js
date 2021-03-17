@@ -1,12 +1,38 @@
-const db = require('../models')
+const Workouts = require('../models/workouts.js')
 
 
 module.exports = (app) => {
     
   //get last workout
       app.get("/api/workouts", (req, res) => {
-        db.Workouts.find({})
+        Workouts.find({})
           .then(dbWorkouts => {
+            console.log(dbWorkouts)
+            res.json(dbWorkouts);
+          })
+          .catch(err => {
+            res.json(err);
+          });
+      })
+
+      app.get("/api/workouts", (req, res) => {
+        Workouts.aggregate([
+          {
+            $set: {
+              totalDuration: {$sum: req.body.duration}
+            }
+          },
+          {
+            $limit: 7
+          },
+          {
+            $sort: 1
+          }
+
+        ])
+          .then(dbWorkouts => {
+            console.log(dbWorkouts)
+            console.
             res.json(dbWorkouts);
           })
           .catch(err => {
@@ -16,11 +42,10 @@ module.exports = (app) => {
 
 //create a new workout
       app.post("/api/workouts", (req, res) => {
+        console.log(body)
         console.log('Testing post method.')
-        db.Workouts.create({
-          exercises: [
-            req.body
-          ]
+        Workouts.create({
+          exercises: req.body
         })
           .then(dbWorkouts => {
             res.json(dbWorkouts);
@@ -33,13 +58,13 @@ module.exports = (app) => {
  //update/add to a workout
       app.put("/api/workouts/:id", (req, res) => {
         console.log('testing put method')
-        db.Workouts.findOneAndUpdate(
+        Workouts.findOneAndUpdate(
           {
             _id: req.params.id
           },
           {
             $push: {
-              excerises: req.body
+              exercises: req.body
             }
           },
           {
@@ -54,7 +79,7 @@ module.exports = (app) => {
 
     //set up a range for ordering the dashboard.
       app.get("/api/workouts/range", (req, res) => {
-       db.Workouts.find({})
+       Workouts.find({})
           .then(dbWorkouts => {
             res.json(dbWorkouts);
           })
