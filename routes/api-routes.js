@@ -4,18 +4,18 @@ const Workouts = require('../models/workouts.js')
 module.exports = (app) => {
     
   //get last workout
-      app.get("/api/workouts", (req, res) => {
-        Workouts.find({})
-          .then(Workouts => {
-            console.log(Workouts)
-            res.json(Workouts);
-          })
-          .catch(err => {
-            res.json(err);
-          });
-      })
+      // app.get("/api/workouts", (req, res) => {
+      //   Workouts.find({})
+      //     .then(Workouts => {
+      //       console.log(Workouts)
+      //       res.json(Workouts);
+      //     })
+      //     .catch(err => {
+      //       res.json(err);
+      //     });
+      // })
 
-      app.get("/api/workouts", (req, res) => {
+      app.get("/api/workouts/", (req, res) => {
         Workouts.aggregate([
           {
             $limit: 7
@@ -28,7 +28,6 @@ module.exports = (app) => {
         ])
           .then(Workouts => {
             console.log(Workouts)
-            console.
             res.json(Workouts);
           })
           .catch(err => {
