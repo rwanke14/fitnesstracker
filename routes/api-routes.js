@@ -4,16 +4,6 @@ const Workouts = require('../models/workouts.js')
 module.exports = (app) => {
     
   //get last workout
-      // app.get("/api/workouts", (req, res) => {
-      //   Workouts.find({})
-      //     .then(Workouts => {
-      //       console.log(Workouts)
-      //       res.json(Workouts);
-      //     })
-      //     .catch(err => {
-      //       res.json(err);
-      //     });
-      // })
 
       app.get("/api/workouts/", (req, res) => {
         Workouts.aggregate([
@@ -35,14 +25,24 @@ module.exports = (app) => {
           });
       })
 
-//create a new workout
-      app.post("/api/workouts", (req, res) => {
-        
-        console.log('Testing post method.')
-        Workouts.create({
-          exercises: req.body
-        })
+      app.get("/api/workouts", (req, res) => {
+        Workouts.find({})
           .then(Workouts => {
+            console.log(Workouts)
+            res.json(Workouts);
+          })
+          .catch(err => {
+            res.json(err);
+          });
+      })
+
+//create a new workout
+      app.post("/api/workouts", (body, res) => {
+        console.log(body)
+        console.log('Testing post method.')
+        Workouts.create(body)
+          .then(Workouts => {
+            console.log(body)
             res.json(Workouts);
           })
           .catch(err => {
@@ -66,6 +66,8 @@ module.exports = (app) => {
             new: true
           }
         ).then(Workouts => {
+          console.log(req.body)
+          console.log(req.params.id)
           res.json(Workouts);
         }).catch(err => {
           res.json(err);
