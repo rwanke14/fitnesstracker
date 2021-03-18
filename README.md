@@ -47,7 +47,7 @@ The user can also view a dashboard with charts to review total workout duration 
 
 ## Link to application:
 
-
+https://fitnesstracker21.herokuapp.com
 
 <br>
 
