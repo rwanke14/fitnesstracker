@@ -20,7 +20,7 @@ app.use(express.static("public"));
 
 //Setting up connection to create collection and add seeders.
    mongoose.connect(
-     process.env.MONGODB_URI || 'mongodb://localhost/workout',
+     process.env.MONGODB_URI|| 'mongodb://localhost/workout',
      {
        useNewUrlParser: true,
        useUnifiedTopology: true,
