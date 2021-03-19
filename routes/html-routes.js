@@ -1,6 +1,8 @@
 
 const path = require('path');
 
+//setting up html routes for each html file. 
+
 module.exports = (app) => {
 
     app.get('/', (req, res) =>

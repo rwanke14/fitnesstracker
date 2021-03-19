@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const WorkoutsSchema = new Schema({
-
+    //setting date to collect date for each workout to add later to the dashboard and recap on homepage.
     day: {
         type: Date,
         default: Date.now
     },
+
+    //setting up exercise array for collecting information in the collection on each workout.
     exercises: [
         {
             type: {
@@ -50,7 +52,7 @@ WorkoutsSchema.virtual('Workouts').get(function() {
     }, 0)
   });
 
-
+//exporting model
 const Workouts = mongoose.model("Workouts", WorkoutsSchema);
 
 module.exports = Workouts;

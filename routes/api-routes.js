@@ -4,6 +4,7 @@ const Workouts = require('../models/workouts.js')
 module.exports = (app) => {
     
   //get last workout
+  //Limit workouts to 7 and grabbing total sum of duration for workouts along with data in collection.
 
       app.get("/api/workouts/", (req, res) => {
         Workouts.aggregate([
@@ -37,6 +38,7 @@ module.exports = (app) => {
       })
 
 //create a new workout
+//passing in body param to collect information.
       app.post("/api/workouts", (body, res) => {
         console.log(body)
         console.log('Testing post method.')
@@ -51,6 +53,7 @@ module.exports = (app) => {
       });
 
  //update/add to a workout
+ //adding in the id we want to pinpoint, and $push to add to the array for exercise.
       app.put("/api/workouts/:id", (req, res) => {
         console.log('testing put method')
         Workouts.findOneAndUpdate(
@@ -75,6 +78,7 @@ module.exports = (app) => {
       });
 
     //set up a range for ordering the dashboard.
+    //Limiting the number of workouts to 7 and setting up a field for the sum of total duration of workouts.
       app.get("/api/workouts/range", (req, res) => {
         Workouts.aggregate([
           {
